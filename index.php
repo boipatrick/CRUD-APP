@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1 id="main_title">CRUD APPLICATION</h1>
-    <div class="container">
-        <h2>ALL BOOKS</h2>
+<?php
+include("header.php");
+include("db.php");
+?>
+<div class="box-1">
+<h2>ALL BOOKS</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Book</button>
+</div>
+        
     <table class="table table-hover table-bordered table-striped">
         <thead>
             <tr>
@@ -22,17 +18,84 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Harry Potter and the Chamber of Secrets</td>
-                <td>J.K Rowling</td>
-                <td>Fantasy</td>
-                <td>1998</td>
+            <?php 
+            
+            
+            $query = "select * from books";
+
+
+            $result = mysqli_query($con, $query);
+
+            if (!$result) {
+                die("QUERY FAILED". mysqli_error($con));
+            }
+            else {
+                while($row = mysqli_fetch_array($result)) {
+                ?>
+                <tr>
+                <td><?php echo $row["id"]; ?></td>
+                <td><?php echo $row["title"]; ?></td>
+                <td><?php echo $row["author"]; ?></td>
+                <td><?php echo $row["genre"]; ?></td>
+                <td><?php echo $row["publication_year"]; ?></td>
             </tr>
+
+                <?php
+                }
+            }
+
+
+            
+            
+            
+            ?>
+            
         </tbody>
     </table>
+    <!-- Modal -->
+    <form action="">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> New Book Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       
+            <div class="form-group">
+                <label for="b_title">Title</label>
+                <input type="text" name="b_title" class="form-control">
+
+            </div>
+            <div class="form-group">
+                <label for="a_name">Author</label>
+                <input type="text" name="a_name" class="form-control">
+                
+            </div>
+            <div class="form-group">
+                <label for="b_genre">Genre</label>
+                <input type="text" name="b_genre" class="form-control">
+                
+            </div>
+            <div class="form-group">
+                <label for="p_year">Publication Year</label>
+                <input type="number" name="p_year" class="form-control">
+                
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Add Book</button>
+      </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
+  </div>
+</div>
+</form>
+
+    <?php
+include("footer.php");
+?>
