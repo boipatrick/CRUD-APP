@@ -17,3 +17,8 @@
 .container{
     margin-top: 100px;
 }
+
+h6{
+    text-align: center ;
+    color: red;
+}
